@@ -1,0 +1,15 @@
+/* Mengubah warna background halaman menjadi abu-abu terang */
+body {
+    background-color: #f4f7f6 !important;
+}
+
+/* Membuat teks di bagian Hero Section menjadi berwarna kuning */
+.hero-section h1 {
+    color: #ffcc00 !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Memberi border tebal pada form pertanyaan */
+.card {
+    border: 2px solid #3187e9 !important;
+}

@@ -27,7 +27,24 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $request->validate([
+		    'nama'  => 'required|max:10',
+		    'email' => ['required','email'],
+		    'pertanyaan' => 'required|max:300|min:8',
+		],[
+            'nama.required' => 'Nama wajib diisi.',
+            'nama.max' => 'Nama maksimal 10 karakter.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Email tidak valid.',
+            'pertanyaan.required' => 'Pertanyaan wajib diisi.',
+            'pertanyaan.max' => 'Pertanyaan maksimal 300 karakter.',
+            'pertanyaan.min' => 'Pertanyaan minimal 8 karakter.',
+        ]);
+
+        // Simpan data pertanyaan ke database atau lakukan tindakan lain sesuai kebutuhan
+        // Contoh: Question::create($request->all());
+
+		return redirect()->back()->with('success', 'Pertanyaan berhasil dikirim!');
     }
 
     /**
