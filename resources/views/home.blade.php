@@ -62,7 +62,7 @@
         <div class="container">
 
             <!-- 2. TARUH KODE GAMBAR DI SINI -->
-            <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" width="40" class="me-2">
+            <img src="{{ asset('assets/images/images.jpg') }}" alt="Logo" width="40" class="me-2">
 
             <a class="navbar-brand" href="#">My Laravel App</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
