@@ -18,8 +18,6 @@ class PelangganController extends Controller
         return view('admin.pelanggan.create');
     }
 
-    use App\Models\Pelanggan;
-
 public function store(Request $request){
 
 		//dd($request->all())
