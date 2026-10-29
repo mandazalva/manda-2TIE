@@ -6,74 +6,43 @@ use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // INI YANG BENAR UNTUK QUESTION CONTROLLER
     public function store(Request $request)
     {
         $request->validate([
-		    'nama'  => 'required|max:10',
-		    'email' => ['required','email'],
-		    'pertanyaan' => 'required|max:300|min:8',
-		],[
-            'nama.required' => 'Nama wajib diisi.',
-            'nama.max' => 'Nama maksimal 10 karakter.',
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Email tidak valid.',
-            'pertanyaan.required' => 'Pertanyaan wajib diisi.',
-            'pertanyaan.max' => 'Pertanyaan maksimal 300 karakter.',
-            'pertanyaan.min' => 'Pertanyaan minimal 8 karakter.',
+            'nama'  => 'required|max:10',
+            'email' => ['required','email'],
+            'pertanyaan' => 'required|max:300|min:8',
         ]);
 
-        // Simpan data pertanyaan ke database atau lakukan tindakan lain sesuai kebutuhan
-        // Contoh: Question::create($request->all());
-
-		return redirect()->back()->with('success', 'Pertanyaan berhasil dikirim!');
+        return redirect()->route('home')->with('info', 'Pertanyaan berhasil dikirim!');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //
