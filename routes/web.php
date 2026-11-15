@@ -6,6 +6,8 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,3 +23,7 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
 Route::resource('pelanggan', PelangganController::class);
 
 Route::resource('user', UserController::class);
+
+Route::resource('category', CategoryController::class);
+
+Route::resource('post', PostController::class);

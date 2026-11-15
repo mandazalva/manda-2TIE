@@ -56,24 +56,27 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="#">My Laravel App</a>
+            <a class="navbar-brand" href="{{ url('/home') }}">My Laravel App</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href="{{ url('/home') }}">Home (Guest)</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
+                        <a class="nav-link" href="{{ route('dashboard') }}">Dashboard Admin</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
+                        <a class="nav-link" href="{{ route('category.index') }}">Categories</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link" href="{{ route('post.index') }}">Posts</a>
+                    </li>
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-primary btn-sm" href="{{ route('dashboard') }}">Admin Panel</a>
                     </li>
                 </ul>
             </div>
@@ -86,6 +89,93 @@
             <h1 class="display-6 mb-2">{{ $username }}</h1>
             <p class="lead mb-0">{{ $last_login }}</p>
         </div>
+    </section>
+
+    <!-- Section Pertemuan 9: Halaman Guest (Eksplorasi Eloquent & Query Builder) -->
+    <section id="guest-posts" class="container my-5">
+        <div class="d-flex justify-content-between align-items-center flex-wrap mb-4 pb-2 border-bottom">
+            <div>
+                <h2 class="h3 fw-bold mb-1">Artikel & Postingan (Halaman Guest)</h2>
+                <p class="text-muted mb-0">Eksplorasi data berelasi Eloquent ORM (Posts) & Query Builder (Categories)</p>
+            </div>
+            <div>
+                <a href="{{ route('post.create') }}" class="btn btn-success text-white btn-sm">
+                    + Buat Post Baru
+                </a>
+            </div>
+        </div>
+
+        <!-- Filter Kategori (Query Builder) & Search Bar -->
+        <div class="row g-3 mb-4 align-items-center">
+            <div class="col-md-8">
+                <div class="d-flex flex-wrap gap-2 align-items-center">
+                    <span class="fw-semibold text-secondary me-1">Kategori:</span>
+                    <a href="{{ url('/home') }}" class="btn btn-sm {{ !request('category') ? 'btn-primary' : 'btn-outline-secondary' }}">
+                        Semua
+                    </a>
+                    @foreach ($guestCategories as $cat)
+                        <a href="{{ url('/home?category=' . $cat->slug) }}" class="btn btn-sm {{ request('category') == $cat->slug ? 'btn-primary' : 'btn-outline-secondary' }}">
+                            {{ $cat->name }} <span class="badge bg-light text-dark ms-1">{{ $cat->total_posts }}</span>
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+            <div class="col-md-4">
+                <form action="{{ url('/home') }}" method="GET">
+                    @if (request('category'))
+                        <input type="hidden" name="category" value="{{ request('category') }}">
+                    @endif
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Cari artikel..." value="{{ request('q') }}">
+                        <button class="btn btn-primary" type="submit">Cari</button>
+                        @if (request('q') || request('category'))
+                            <a href="{{ url('/home') }}" class="btn btn-outline-secondary">Reset</a>
+                        @endif
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Grid Cards Postingan -->
+        <div class="row g-4">
+            @forelse ($guestPosts as $post)
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-header bg-light border-0 pt-3 px-3 d-flex justify-content-between align-items-center">
+                            @if ($post->category)
+                                <span class="badge bg-info text-dark">{{ $post->category->name }}</span>
+                            @else
+                                <span class="badge bg-secondary">Umum</span>
+                            @endif
+                            <small class="text-muted">{{ $post->created_at->format('d M Y') }}</small>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold text-primary">{{ $post->title }}</h5>
+                            <p class="card-text text-muted">
+                                {{ Str::limit(strip_tags($post->content), 120) }}
+                            </p>
+                        </div>
+                        <div class="card-footer bg-white border-0 pb-3 px-3">
+                            <a href="#content" class="btn btn-outline-primary btn-sm w-100">Baca Selengkapnya</a>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-12">
+                    <div class="alert alert-info text-center py-4 mb-0">
+                        <h5 class="alert-heading">Belum ada postingan artikel</h5>
+                        <p class="mb-2">Data postingan masih kosong. Tambahkan artikel sekarang di Admin Panel.</p>
+                        <a href="{{ route('post.create') }}" class="btn btn-primary btn-sm">Tambah Post di Admin Panel</a>
+                    </div>
+                </div>
+            @endforelse
+        </div>
+
+        @if ($guestPosts->hasPages())
+            <div class="d-flex justify-content-center mt-4">
+                {{ $guestPosts->links() }}
+            </div>
+        @endif
     </section>
 
     <!-- Content Section -->
