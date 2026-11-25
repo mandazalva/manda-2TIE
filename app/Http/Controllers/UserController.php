@@ -26,12 +26,17 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+        $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|confirmed',
+            'role'     => 'required|string',
+        ]);
 
-        $data['name'] = $request->name;
-        $data['email']  = $request->email;
+        $data['name']     = $request->name;
+        $data['email']    = $request->email;
         $data['password'] = Hash::make($request->password);
-
+        $data['role']     = $request->role;
 
         User::create($data);
 
@@ -60,12 +65,21 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $user_id = $id;
-        $user    = User::findOrFail($id);
+        $request->validate([
+            'name'  => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'role'  => 'required|string',
+        ]);
 
-        $user->name = $request->name;
+        $user = User::findOrFail($id);
+
+        $user->name  = $request->name;
         $user->email = $request->email;
-        $user->password = bcrypt($request->password);
+        $user->role  = $request->role;
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
 
         $user->save();
 

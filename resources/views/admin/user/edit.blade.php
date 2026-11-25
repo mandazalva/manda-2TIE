@@ -50,6 +50,15 @@
                                     <input type="text" id="email" class="form-control" name="email"
                                         value="{{ $dataUser->email }}" required>
                                 </div>
+                                <!-- Role -->
+                                <div class="mb-3">
+                                    <label for="role" class="form-label">Role</label>
+                                    <select id="role" name="role" class="form-select" required>
+                                        <option value="Super Admin" {{ $dataUser->role == 'Super Admin' ? 'selected' : '' }}>Super Admin</option>
+                                        <option value="Pelanggan" {{ $dataUser->role == 'Pelanggan' ? 'selected' : '' }}>Pelanggan</option>
+                                        <option value="Mitra" {{ $dataUser->role == 'Mitra' ? 'selected' : '' }}>Mitra</option>
+                                    </select>
+                                </div>
 
                             </div>
 
@@ -60,13 +69,13 @@
                                 <!-- Phone -->
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="text" id="password" class="form-control"
-                                        value="{{ $dataUser->password }}" name="password">
+                                    <input type="password" id="password" class="form-control"
+                                        placeholder="Kosongkan jika tidak ingin mengubah" name="password">
                                 </div>
                                 <div class="mb-3">
                                     <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-                                    <input type="text" id="password_confirmation" class="form-control"
-                                        value="{{ $dataUser->password_confirmation }}" name="password_confirmation">
+                                    <input type="password" id="password_confirmation" class="form-control"
+                                        placeholder="Kosongkan jika tidak ingin mengubah" name="password_confirmation">
                                 </div>
 
                                 <!-- Buttons -->
